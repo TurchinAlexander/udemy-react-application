@@ -24,13 +24,16 @@ class PostAddForm extends React.Component{
 
         const {onAdd} = this.props;
         const {text} = this.state;
-
-        event.currentTarget.reset();
-
         onAdd(text);
+
+        this.setState({
+            text: ''
+        });
     }
 
     render() {
+        const {text} = this.state;
+
         return (
             <form 
                 className='bottom-panel d-flex'
@@ -41,6 +44,7 @@ class PostAddForm extends React.Component{
                     placeholder="What do you thinking right now?"
                     className="form-control new-post-label"
                     onChange={this.onValueChange}
+                    value={text}
                 />
                 <button
                     type="submit"
