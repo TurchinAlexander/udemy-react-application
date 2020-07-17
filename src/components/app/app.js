@@ -13,14 +13,17 @@ class App extends React.Component {
         super(props);
         this.state = {
             data : [
-                {label: 'Going to learn React', important: true, id: 1},
-                {label: 'That is so good', important: false, id: 2},
-                {label: 'I need a break', important: false, id: 3},
+                {label: 'Going to learn React', important: true, liked: false, id: 1},
+                {label: 'That is so good', important: false, liked: false, id: 2},
+                {label: 'I need a break', important: false, liked: false, id: 3},
             ]
         };
 
         this.deleteItem = this.deleteItem.bind(this);
         this.addItem = this.addItem.bind(this);
+        this.onToggleImportant = this.onToggleImportant.bind(this);
+        this.onToggleLiked = this.onToggleLiked.bind(this);
+        this.onToggleParam = this.onToggleParam.bind(this);
 
         this.maxId = 4;
     }
@@ -46,11 +49,29 @@ class App extends React.Component {
         };
 
         this.setState(({data}) => {
-            // const newArray = data.slice();
-
-            // newArray.push(newItem);
-
             const newArray = [...data, newItem];
+
+            return {
+                data: newArray
+            };
+        });
+    }
+
+    onToggleImportant(id) {
+        this.onToggleParam(id, 'important');
+    }
+
+    onToggleLiked(id) {
+        this.onToggleParam(id, 'liked');
+    }
+
+    onToggleParam(id, paramName) {
+        this.setState(({data}) => {
+            const index = data.findIndex(elem => elem.id === id);
+            const newArray = [...data];
+
+            newArray[index][paramName] = !newArray[index][paramName];
+            // newArray[index] = {...newArray[index], paramName: !newArray[index][paramName]};
 
             return {
                 data: newArray
@@ -71,6 +92,8 @@ class App extends React.Component {
                 <PostList 
                     posts={data}
                     onDelete={this.deleteItem}
+                    onToggleImportant={this.onToggleImportant}
+                    onToggleLiked={this.onToggleLiked}
                 />
                 <PostAddForm
                     onAdd={this.addItem}    
