@@ -13,16 +13,16 @@ class App extends React.Component {
         super(props);
         this.state = {
             data : [
-                {label: 'Going to learn React', important: true, liked: false, id: 1},
-                {label: 'That is so good', important: false, liked: false, id: 2},
-                {label: 'I need a break', important: false, liked: false, id: 3},
+                {label: 'Going to learn React', important: true, like: false, id: 1},
+                {label: 'That is so good', important: false, like: false, id: 2},
+                {label: 'I need a break', important: false, like: false, id: 3},
             ]
         };
 
         this.deleteItem = this.deleteItem.bind(this);
         this.addItem = this.addItem.bind(this);
         this.onToggleImportant = this.onToggleImportant.bind(this);
-        this.onToggleLiked = this.onToggleLiked.bind(this);
+        this.onToggleLike = this.onToggleLike.bind(this);
         this.onToggleParam = this.onToggleParam.bind(this);
 
         this.maxId = 4;
@@ -61,8 +61,8 @@ class App extends React.Component {
         this.onToggleParam(id, 'important');
     }
 
-    onToggleLiked(id) {
-        this.onToggleParam(id, 'liked');
+    onToggleLike(id) {
+        this.onToggleParam(id, 'like');
     }
 
     onToggleParam(id, paramName) {
@@ -71,7 +71,6 @@ class App extends React.Component {
             const newArray = [...data];
 
             newArray[index][paramName] = !newArray[index][paramName];
-            // newArray[index] = {...newArray[index], paramName: !newArray[index][paramName]};
 
             return {
                 data: newArray
@@ -79,12 +78,18 @@ class App extends React.Component {
         });
     }
 
+    
     render() {
         const {data} = this.state;
+        const liked = data.filter(item => item.like).length;
+        const allPosts = data.length;
 
         return (
             <div className="app">
-                <AppHeader/>
+                <AppHeader
+                    liked={liked}
+                    allPosts={allPosts}
+                />
                 <div className="search-panel d-flex">
                     <SearchPanel/>
                     <PostStatusFilter/>
@@ -93,7 +98,7 @@ class App extends React.Component {
                     posts={data}
                     onDelete={this.deleteItem}
                     onToggleImportant={this.onToggleImportant}
-                    onToggleLiked={this.onToggleLiked}
+                    onToggleLike={this.onToggleLike}
                 />
                 <PostAddForm
                     onAdd={this.addItem}    
@@ -101,6 +106,6 @@ class App extends React.Component {
             </div>
         );
     }
-};
+}
 
 export default App;

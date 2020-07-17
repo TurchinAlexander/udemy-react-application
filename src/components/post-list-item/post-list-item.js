@@ -6,7 +6,7 @@ import './post-list-item.css';
 
 export default class PostListItem extends React.Component {
     render() {
-        const {label, onDelete, onToggleImportant, onToggleLiked, important, liked} = this.props;
+        const {label, onDelete, onToggleImportant, onToggleLike, important, like} = this.props;
 
         let classNames = 'app-list-item d-flex justify-content-between';
     
@@ -14,7 +14,7 @@ export default class PostListItem extends React.Component {
             classNames += ' important';
         }
 
-        if (liked) {
+        if (like) {
             classNames += ' like';
         }
 
@@ -22,7 +22,7 @@ export default class PostListItem extends React.Component {
             <div className={classNames}>
                 <span 
                     className="app-list-item-label"
-                    onClick={onToggleLiked}
+                    onClick={onToggleLike}
                 >
                     {label}
                 </span>
